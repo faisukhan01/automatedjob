@@ -1,0 +1,34 @@
+# dependencies
+node_modules/
+.venv/
+
+# next.js
+.next/
+out/
+
+# env & secrets
+.env
+.env*.local
+
+# databases
+db/*.db
+db/*.db-journal
+
+# logs
+dev.log
+server.log
+*.log
+
+# os / editor
+.DS_Store
+*.tsbuildinfo
+.idea/
+.vscode/
+
+# sandbox artifacts
+agent-ctx/
+download/
+skills/
+.zscripts/
+tests/
+examples/
