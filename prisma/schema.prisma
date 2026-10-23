@@ -1,0 +1,116 @@
+// JobPilot AI — Autonomous Job Application Platform
+// Prisma schema for SQLite
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id               String   @id @default(cuid())
+  fullName         String
+  email            String
+  phone            String?
+  location         String?
+  headline         String?
+  bio              String?
+  yearsExperience  Int      @default(0)
+  skills           String   @default("[]") // JSON string[]
+  desiredRoles     String   @default("[]") // JSON string[]
+  desiredLocations String   @default("[]") // JSON string[]
+  employmentTypes  String   @default("[]") // JSON string[]
+  minSalary        Int      @default(0) // USD / year
+  remoteOnly       Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Resume {
+  id            String   @id @default(cuid())
+  name          String
+  fileName      String
+  targetRole    String?
+  isPrimary     Boolean  @default(false)
+  atsScore      Int      @default(0)
+  skillsCovered String   @default("[]") // JSON string[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Portal {
+  id                String    @id @default(cuid())
+  name              String
+  slug              String    @unique
+  status            String    @default("disconnected") // connected | disconnected | error
+  autoApply         Boolean   @default(false)
+  lastSyncAt        DateTime?
+  applicationsCount Int       @default(0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  jobs              Job[]
+}
+
+model Job {
+  id             String        @id @default(cuid())
+  portalId       String?
+  portal         Portal?       @relation(fields: [portalId], references: [id], onDelete: SetNull)
+  externalId     String?
+  title          String
+  company        String
+  location       String
+  remote         Boolean       @default(false)
+  employmentType String        @default("full-time")
+  salaryMin      Int?
+  salaryMax      Int?
+  description    String?
+  skills         String        @default("[]") // JSON string[]
+  easyApply      Boolean       @default(true)
+  postedAt       DateTime?
+  matchScore     Int           @default(0)
+  saved          Boolean       @default(false)
+  status         String        @default("new") // new | saved | applied | dismissed
+  createdAt      DateTime      @default(now())
+  applications   Application[]
+}
+
+model Application {
+  id          String   @id @default(cuid())
+  jobId       String
+  job         Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  resumeId    String?
+  status      String   @default("applied") // applied | screening | interview | offer | rejected | withdrawn
+  method      String   @default("auto") // auto | manual
+  coverLetter String?
+  matchScore  Int      @default(0)
+  events      String   @default("[]") // JSON timeline [{at,label}]
+  appliedAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AutomationConfig {
+  id              String   @id @default("main")
+  enabled         Boolean  @default(false)
+  dailyLimit      Int      @default(20)
+  minMatchScore   Int      @default(70)
+  autoCoverLetter Boolean  @default(true)
+  autoSaveJobs    Boolean  @default(true)
+  notifyEmail     Boolean  @default(true)
+  scheduleWindow  String   @default("09:00 - 18:00")
+  quietHours      String   @default("23:00 - 07:00")
+  keywords        String   @default("[]") // JSON string[]
+  updatedAt       DateTime @updatedAt
+}
+
+model ActivityLog {
+  id         String   @id @default(cuid())
+  type       String // engine_run | application_sent | portal_connected | portal_synced | status_changed | resume_added | config_updated | error
+  title      String
+  detail     String?
+  portalSlug String?
+  meta       String   @default("{}") // JSON
+  createdAt  DateTime @default(now())
+}
