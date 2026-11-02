@@ -168,6 +168,62 @@ export const useDeleteResume = () => {
   })
 }
 
+// ---- Analytics (Laravel microservice contract, Prisma fallback) ----------
+
+export type AnalyticsWindow = { from: string; to: string; days: number }
+export type AnalyticsSummary = {
+  window: AnalyticsWindow
+  portal: string | null
+  totals: { applications: number; interviews: number; offers: number; responseRate: number }
+  byPortal: { portal: string; label: string; applications: number; interviews: number; offers: number; responseRate: number; interviewRate: number }[]
+  byDay: { date: string; applications: number; interviews: number; offers: number; responseRate: number }[]
+  funnel: { applied: number; screening: number; interview: number; offer: number }
+  source: string
+}
+export type AnalyticsFunnel = {
+  window: AnalyticsWindow
+  portal: string | null
+  stages: { stage: string; count: number; percentage: number; conversionFromPrevious: number | null }[]
+  source: string
+}
+export type AnalyticsPortals = {
+  window: AnalyticsWindow
+  totals: { applications: number; interviews: number; offers: number; responseRate: number }
+  portals: { portal: string; label: string; applications: number; interviews: number; offers: number; responseRate: number; interviewRate: number }[]
+  bestPortal: { portal: string; label: string; responseRate: number; applications: number } | null
+  source: string
+}
+export type AnalyticsHealth = { ok: boolean; service: string; upstream: unknown }
+
+export const useAnalyticsHealth = () =>
+  useQuery({ queryKey: ['analytics-health'], queryFn: () => api<AnalyticsHealth>('/api/analytics/health'), refetchInterval: 30_000 })
+
+const analyticsQS = (win: AnalyticsWindow | null, portal: string | null) => {
+  const sp = new URLSearchParams()
+  if (win) { sp.set('from', win.from); sp.set('to', win.to) }
+  if (portal && portal !== 'all') sp.set('portal', portal)
+  const q = sp.toString()
+  return q ? `?${q}` : ''
+}
+
+export const useAnalyticsSummary = (win: AnalyticsWindow | null, portal: string | null) =>
+  useQuery({
+    queryKey: ['analytics-summary', win, portal],
+    queryFn: () => api<AnalyticsSummary>(`/api/analytics/summary${analyticsQS(win, portal)}`),
+  })
+
+export const useAnalyticsFunnel = (win: AnalyticsWindow | null, portal: string | null) =>
+  useQuery({
+    queryKey: ['analytics-funnel', win, portal],
+    queryFn: () => api<AnalyticsFunnel>(`/api/analytics/funnel${analyticsQS(win, portal)}`),
+  })
+
+export const useAnalyticsPortals = (win: AnalyticsWindow | null) =>
+  useQuery({
+    queryKey: ['analytics-portals', win],
+    queryFn: () => api<AnalyticsPortals>(`/api/analytics/portals${analyticsQS(win, null)}`),
+  })
+
 export const useSaveAutomation = () => {
   const invalidate = useInvalidate()
   return useMutation({

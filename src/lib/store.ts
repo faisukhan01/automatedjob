@@ -2,7 +2,7 @@
 
 import { create } from 'zustand'
 
-export type ViewId = 'dashboard' | 'discover' | 'applications' | 'portals' | 'automation' | 'resume' | 'activity'
+export type ViewId = 'dashboard' | 'discover' | 'applications' | 'portals' | 'automation' | 'insights' | 'resume' | 'activity'
 
 interface UIState {
   view: ViewId

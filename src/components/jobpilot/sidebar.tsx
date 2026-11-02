@@ -4,7 +4,7 @@ import { useUI, type ViewId } from '@/lib/store'
 import { useEngineStatus, useEngineRun, useOverview, useAutomation } from '@/lib/api'
 import { toast } from 'sonner'
 import {
-  LayoutDashboard, Radar, BriefcaseBusiness, Cable, Bot, FileUser, History,
+  LayoutDashboard, Radar, BriefcaseBusiness, Cable, Bot, ChartSpline, FileUser, History,
   Rocket, Play, Loader2,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -18,6 +18,7 @@ export const NAV: { id: ViewId; label: string; icon: typeof Rocket; hint: string
   { id: 'applications', label: 'Applications', icon: BriefcaseBusiness, hint: 'Pipeline tracker' },
   { id: 'portals', label: 'Portals', icon: Cable, hint: 'Connected accounts' },
   { id: 'automation', label: 'Automation', icon: Bot, hint: 'Auto-pilot engine' },
+  { id: 'insights', label: 'Insights', icon: ChartSpline, hint: 'Funnel analytics' },
   { id: 'resume', label: 'Resume & Profile', icon: FileUser, hint: 'Career assets' },
   { id: 'activity', label: 'Activity', icon: History, hint: 'Full audit log' },
 ]
@@ -125,7 +126,7 @@ export function Sidebar() {
         <SidebarBody />
       </aside>
       <Sheet open={useUI((s) => s.mobileNavOpen)} onOpenChange={(b) => useUI.getState().setMobileNavOpen(b)}>
-        <SheetContent side="left" className="w-72 bg-sidebar p-0">
+        <SheetContent side="left" aria-describedby={undefined} className="w-72 bg-sidebar p-0">
           <SheetTitle className="sr-only">Navigation</SheetTitle>
           <SidebarBody />
         </SheetContent>

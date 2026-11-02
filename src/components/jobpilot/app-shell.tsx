@@ -10,6 +10,7 @@ import { DiscoverView } from './views/discover-view'
 import { ApplicationsView } from './views/applications-view'
 import { PortalsView } from './views/portals-view'
 import { AutomationView } from './views/automation-view'
+import { InsightsView } from './views/insights-view'
 import { ResumeView } from './views/resume-view'
 import { ActivityView } from './views/activity-view'
 import { useEffect } from 'react'
@@ -20,6 +21,7 @@ const VIEWS: Record<string, React.ComponentType> = {
   applications: ApplicationsView,
   portals: PortalsView,
   automation: AutomationView,
+  insights: InsightsView,
   resume: ResumeView,
   activity: ActivityView,
 }
