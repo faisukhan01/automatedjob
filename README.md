@@ -57,8 +57,16 @@ No more 2 a.m. "Easy Apply" marathons. Set your rules once. Ship resumes while y
 | Dashboard | Job Discovery |
 | :---: | :---: |
 | ![Dashboard](docs/screenshots/dashboard.png) | ![Discovery](docs/screenshots/discovery.png) |
-| **Applications** | **Automation** |
-| ![Applications](docs/screenshots/applications.png) | ![Automation](docs/screenshots/automation.png) |
+| **Applications** | **Portals** |
+| ![Applications](docs/screenshots/applications.png) | ![Portals](docs/screenshots/portals.png) |
+| **Automation** | **Resume Studio** |
+| ![Automation](docs/screenshots/automation.png) | ![Resume](docs/screenshots/resume.png) |
+
+*Fully responsive — light & dark themes:*
+
+| Light Theme | Mobile |
+| :---: | :---: |
+| ![Light](docs/screenshots/light-theme.png) | ![Mobile](docs/screenshots/mobile-dashboard.png) |
 
 </div>
 

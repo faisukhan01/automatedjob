@@ -10,7 +10,7 @@ import {
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Sheet, SheetContent } from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet'
 
 export const NAV: { id: ViewId; label: string; icon: typeof Rocket; hint: string }[] = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, hint: 'Mission control' },
@@ -126,6 +126,7 @@ export function Sidebar() {
       </aside>
       <Sheet open={useUI((s) => s.mobileNavOpen)} onOpenChange={(b) => useUI.getState().setMobileNavOpen(b)}>
         <SheetContent side="left" className="w-72 bg-sidebar p-0">
+          <SheetTitle className="sr-only">Navigation</SheetTitle>
           <SidebarBody />
         </SheetContent>
       </Sheet>

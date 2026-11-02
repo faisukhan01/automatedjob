@@ -12,7 +12,8 @@ const j = (v: unknown) => JSON.stringify(v)
 const daysAgo = (d: number, hour = 10) => {
   const t = new Date()
   t.setDate(t.getDate() - d)
-  t.setHours(hour, (d * 13) % 60, 0, 0)
+  if (d === 0) t.setHours(Math.max(0, t.getHours() - 2), (d * 13) % 60, 0, 0)
+  else t.setHours(hour, (d * 13) % 60, 0, 0)
   return t
 }
 

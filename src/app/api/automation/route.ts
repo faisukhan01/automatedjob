@@ -41,7 +41,7 @@ export async function PUT(req: NextRequest) {
     const config = await db.automationConfig.update({
       where: { id: 'main' },
       data: {
-        enabled, dailyLimit, minMatchScore, keywords,
+        enabled, dailyLimit, minMatchScore, keywords: JSON.stringify(keywords),
         autoCoverLetter: typeof body.autoCoverLetter === 'boolean' ? body.autoCoverLetter : existing.autoCoverLetter,
         autoSaveJobs: typeof body.autoSaveJobs === 'boolean' ? body.autoSaveJobs : existing.autoSaveJobs,
         notifyEmail: typeof body.notifyEmail === 'boolean' ? body.notifyEmail : existing.notifyEmail,
