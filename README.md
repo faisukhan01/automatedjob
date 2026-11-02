@@ -46,7 +46,8 @@ No more 2 a.m. "Easy Apply" marathons. Set your rules once. Ship resumes while y
 | 📊 | **Application Tracker** | Full pipeline (Applied → Screening → Interview → Offer) with per-application timeline & used cover letter |
 | 🧭 | **Job Discovery** | Filter 100+ roles by portal, location, remote, salary & match; save jobs for later |
 | 📄 | **Resume Studio** | Multiple resumes with ATS scoring, primary-resume selection, and career profile |
-| 📈 | **Analytics Dashboard** | Application velocity, pipeline donut, portal leaderboard, response rate |
+| 📈 | **Performance Insights** | Conversion funnel, per-portal response/interview rates, best-portal ROI — Laravel analytics API with live fallback |
+| 📊 | **Dashboard Analytics** | Application velocity, pipeline donut, portal leaderboard, response rate |
 | 🧾 | **Activity Audit Log** | Every engine run, application, sync and status change — fully traceable |
 | 🌗 | **Premium Dark UI** | Emerald-on-charcoal design system, light/dark themes, fully responsive |
 
@@ -61,6 +62,8 @@ No more 2 a.m. "Easy Apply" marathons. Set your rules once. Ship resumes while y
 | ![Applications](docs/screenshots/applications.png) | ![Portals](docs/screenshots/portals.png) |
 | **Automation** | **Resume Studio** |
 | ![Automation](docs/screenshots/automation.png) | ![Resume](docs/screenshots/resume.png) |
+| **Performance Insights** | **Activity Audit Log** |
+| ![Insights](docs/screenshots/insights.png) | ![Activity](docs/screenshots/activity.png) |
 
 *Fully responsive — light & dark themes:*
 
