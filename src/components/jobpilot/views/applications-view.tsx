@@ -161,7 +161,7 @@ export function ApplicationsView() {
       )}
 
       <Sheet open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
-        <SheetContent className="w-full overflow-y-auto sm:max-w-md">
+        <SheetContent aria-describedby={undefined} className="w-full overflow-y-auto sm:max-w-md">
           {selected ? (
             <div>
               <SheetHeader className="p-0 text-left">

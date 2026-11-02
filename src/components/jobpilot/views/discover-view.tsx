@@ -190,7 +190,7 @@ export function DiscoverView() {
       )}
 
       <Sheet open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
-        <SheetContent className="w-full overflow-y-auto sm:max-w-lg">
+        <SheetContent aria-describedby={undefined} className="w-full overflow-y-auto sm:max-w-lg">
           {selected ? (
             <div>
               <SheetHeader className="p-0 text-left">

@@ -171,7 +171,7 @@ export function PortalsView() {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Plug className="size-4 text-primary" /> Connect {connecting}
+              <Plug className="size-4 text-primary" /> Connect {portals.find((p) => p.slug === connecting)?.name ?? connecting}
             </DialogTitle>
             <DialogDescription>
               JobPilot stores a secure session token and uses it to search &amp; apply on your behalf. In this demo environment no real credentials are transmitted.
