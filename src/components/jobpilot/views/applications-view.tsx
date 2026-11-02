@@ -5,6 +5,7 @@ import { useApplications, useUpdateApplication } from '@/lib/api'
 import { SectionHeader } from '@/components/jobpilot/shared/section-header'
 import { MatchRing } from '@/components/jobpilot/shared/match-ring'
 import { EmptyState } from '@/components/jobpilot/shared/empty-state'
+import { DemoNotice } from '@/components/jobpilot/shared/demo-notice'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -50,6 +51,8 @@ export function ApplicationsView() {
         title="Applications"
         description="Track every submission — auto-pilot and manual — across all connected portals."
       />
+
+      <DemoNotice storageKey="jp-demo-notice-applications" className="mb-5" />
 
       <div className="mb-4 flex flex-wrap gap-2">
         {[{ key: 'all', label: 'All' }, ...APPLICATION_STATUSES.map((s) => ({ key: s, label: STATUS_META[s].label }))].map((chip) => (

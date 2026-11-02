@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils'
 const LOG_META: Record<string, { icon: typeof Send; tint: string; label: string }> = {
   engine_run: { icon: Bot, tint: 'bg-emerald-500/12 text-emerald-500', label: 'Engine runs' },
   application_sent: { icon: Send, tint: 'bg-violet-500/12 text-violet-500', label: 'Applications' },
+  application_recorded: { icon: Send, tint: 'bg-violet-500/12 text-violet-500', label: 'Applications' },
   status_changed: { icon: ArrowRightCircle, tint: 'bg-amber-500/12 text-amber-500', label: 'Status changes' },
   portal_connected: { icon: Plug, tint: 'bg-teal-500/12 text-teal-500', label: 'Portals' },
   portal_synced: { icon: RefreshCw, tint: 'bg-teal-500/12 text-teal-500', label: 'Portals' },

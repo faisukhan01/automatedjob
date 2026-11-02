@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
       data: {
         jobId, resumeId: primaryResume?.id ?? null, status: 'applied', method,
         coverLetter, matchScore: job.matchScore,
-        events: JSON.stringify([{ at: now.toISOString(), label: method === 'auto' ? 'Application submitted via auto-pilot' : 'Application submitted manually' }]),
+        events: JSON.stringify([{ at: now.toISOString(), label: method === 'auto' ? 'Application recorded via auto-pilot (demo mode — not sent to employer)' : 'Application recorded manually (demo mode — not sent to employer)' }]),
         appliedAt: now,
       },
     })
@@ -78,9 +78,9 @@ export async function POST(req: NextRequest) {
     }
     await db.activityLog.create({
       data: {
-        type: 'application_sent',
-        title: `Application sent ${method === 'auto' ? 'via auto-pilot' : 'manually'}`,
-        detail: `${job.title} — ${job.company} · ${job.matchScore}% match · cover letter by ${engine === 'fastapi' ? 'FastAPI engine' : 'local generator'}`,
+        type: 'application_recorded',
+        title: `Application recorded ${method === 'auto' ? 'via auto-pilot' : 'manually'} (demo)`,
+        detail: `${job.title} — ${job.company} · ${job.matchScore}% match · cover letter by ${engine === 'fastapi' ? 'FastAPI engine' : 'local generator'} · demo mode: stored locally only`,
         portalSlug: job.portal?.slug ?? null, meta: JSON.stringify({ matchScore: job.matchScore, jobId }),
       },
     })
@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
       ok: true,
       id: application.id,
       engine,
-      message: `Applied to ${job.title} at ${job.company}`,
+      message: `Application recorded (demo mode) — ${job.title} at ${job.company}`,
     })
   } catch (e) {
     console.error('[applications POST]', e)

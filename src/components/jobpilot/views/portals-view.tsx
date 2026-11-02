@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { usePortalAction, usePortals } from '@/lib/api'
 import { SectionHeader } from '@/components/jobpilot/shared/section-header'
 import { EmptyState } from '@/components/jobpilot/shared/empty-state'
+import { DemoNotice } from '@/components/jobpilot/shared/demo-notice'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -73,6 +74,8 @@ export function PortalsView() {
         title="Portal Connections"
         description="Link your job portal accounts. Connected portals are scanned for fresh roles and can be included in auto-apply."
       />
+
+      <DemoNotice storageKey="jp-demo-notice-portals" className="mb-5" />
 
       {isLoading ? (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -174,7 +177,7 @@ export function PortalsView() {
               <Plug className="size-4 text-primary" /> Connect {portals.find((p) => p.slug === connecting)?.name ?? connecting}
             </DialogTitle>
             <DialogDescription>
-              JobPilot stores a secure session token and uses it to search &amp; apply on your behalf. In this demo environment no real credentials are transmitted.
+              In production JobPilot exchanges OAuth tokens via official portal APIs. In this demo environment the connection is <strong>simulated</strong> — nothing is sent to Indeed/LinkedIn and no credentials leave your browser. Any email/password you type here is ignored.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
@@ -195,7 +198,7 @@ export function PortalsView() {
             <Button variant="outline" onClick={() => setConnecting(null)}>Cancel</Button>
             <Button onClick={confirmConnect} disabled={action.isPending}>
               {action.isPending ? <Loader2 className="size-4 animate-spin" /> : <PlugZap className="size-4" />}
-              Connect securely
+              Connect (simulated)
             </Button>
           </DialogFooter>
         </DialogContent>

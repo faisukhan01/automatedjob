@@ -6,7 +6,7 @@ import { useTheme } from 'next-themes'
 import { useEngineStatus } from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { Menu, Moon, Sun, Github, Zap } from 'lucide-react'
+import { Menu, Moon, Sun, Github, Zap, FlaskConical } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 
@@ -35,12 +35,24 @@ export function Topbar() {
           <p className="hidden truncate text-xs text-muted-foreground sm:block">{nav?.hint}</p>
         </div>
 
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="flex cursor-default items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-xs font-semibold text-amber-700 dark:text-amber-400">
+              <FlaskConical className="size-3.5" aria-hidden />
+              Demo mode
+            </div>
+          </TooltipTrigger>
+          <TooltipContent className="max-w-64 text-balance">
+            Sample jobs &amp; simulated portal connections. Applying records data locally — nothing is sent to employers.
+          </TooltipContent>
+        </Tooltip>
+
         <div
           className={cn(
             'hidden items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium sm:flex',
             engine.data?.ok
               ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-              : 'border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400'
+              : 'border-zinc-400/30 bg-zinc-500/10 text-zinc-600 dark:text-zinc-400'
           )}
         >
           <Zap className="size-3.5" />

@@ -5,6 +5,7 @@ import { defaultFilters, useApplyJob, useJobs, useSaveJob, type JobFilters } fro
 import { SectionHeader } from '@/components/jobpilot/shared/section-header'
 import { MatchRing } from '@/components/jobpilot/shared/match-ring'
 import { EmptyState } from '@/components/jobpilot/shared/empty-state'
+import { DemoNotice } from '@/components/jobpilot/shared/demo-notice'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -43,7 +44,7 @@ export function DiscoverView() {
 
   const apply = (job: Job) =>
     toast.promise(applyJob.mutateAsync(job.id), {
-      loading: `Applying to ${job.title}…`,
+      loading: `Recording application to ${job.title}…`,
       success: (res) => res.message,
       error: (err) => err.message,
     })
@@ -61,6 +62,8 @@ export function DiscoverView() {
         title="Job Discovery"
         description="Every role from your connected portals, scored against your profile by the matching engine."
       />
+
+      <DemoNotice storageKey="jp-demo-notice-discover" className="mb-5" />
 
       <Card className="mb-5 p-4">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
@@ -246,7 +249,7 @@ export function DiscoverView() {
                     <Button className="flex-1" disabled>Applied ✓</Button>
                   ) : (
                     <Button className="flex-1" onClick={() => { apply(selected); setSelected(null) }}>
-                      <ExternalLink className="size-4" /> Apply on {selected.portalName}
+                      <ExternalLink className="size-4" /> Record application (demo)
                     </Button>
                   )}
                 </div>

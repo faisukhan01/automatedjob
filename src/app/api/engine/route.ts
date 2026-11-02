@@ -136,16 +136,16 @@ export async function POST() {
       data: {
         type: 'engine_run',
         title: 'Auto-pilot cycle completed',
-        detail: `${details.length ? `Applied to ${details.length} new job${details.length === 1 ? '' : 's'}` : 'No new applications'}${savedCount ? ` · ${savedCount} saved` : ''} · ${result.skipped.length} skipped · via ${engine === 'fastapi' ? 'FastAPI engine' : 'local fallback'}`,
+        detail: `${details.length ? `Recorded ${details.length} new application${details.length === 1 ? '' : 's'}` : 'No new applications'}${savedCount ? ` · ${savedCount} saved` : ''} · ${result.skipped.length} skipped · via ${engine === 'fastapi' ? 'FastAPI engine' : 'local fallback'} · demo mode`,
         meta: JSON.stringify({ applied: details.length, saved: savedCount, skipped: result.skipped.length, engine }),
       },
     })
     for (const d of details.slice(0, 6)) {
       await db.activityLog.create({
         data: {
-          type: 'application_sent',
-          title: 'Application sent via auto-pilot',
-          detail: `${d.title} — ${d.company} · ${d.matchScore}% match`,
+          type: 'application_recorded',
+          title: 'Application recorded via auto-pilot (demo)',
+          detail: `${d.title} — ${d.company} · ${d.matchScore}% match · stored locally, not sent to employer`,
           meta: JSON.stringify({ matchScore: d.matchScore, jobId: d.jobId }),
         },
       })
@@ -158,7 +158,7 @@ export async function POST() {
       skipped: result.skipped.length,
       engine,
       message: details.length
-        ? `Applied to ${details.length} job${details.length === 1 ? '' : 's'} (${engine === 'fastapi' ? 'FastAPI engine' : 'local fallback'})`
+        ? `Recorded ${details.length} application${details.length === 1 ? '' : 's'} in demo mode (${engine === 'fastapi' ? 'FastAPI engine' : 'local fallback'})`
         : 'No jobs passed your match threshold this cycle',
     })
   } catch (e) {

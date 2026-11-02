@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useAutomation, useEngineRun, useEngineStatus, useOverview, useSaveAutomation } from '@/lib/api'
 import { SectionHeader } from '@/components/jobpilot/shared/section-header'
+import { DemoNotice } from '@/components/jobpilot/shared/demo-notice'
 import { ChipInput } from '@/components/jobpilot/shared/chip-input'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -78,6 +79,8 @@ export function AutomationView() {
         title="Automation"
         description="Configure the auto-pilot engine — it scores every new job against your profile and applies for you within your rules."
       />
+
+      <DemoNotice storageKey="jp-demo-notice-automation" className="mb-5" />
 
       {/* Master control */}
       <Card className="mb-5 overflow-hidden">

@@ -35,6 +35,26 @@ engine takes over:
 
 No more 2 a.m. "Easy Apply" marathons. Set your rules once. Ship resumes while you sleep.
 
+> [!IMPORTANT]
+> ### 🧪 Demo Mode vs Production — read this first
+>
+> This repository ships as a **fully-working demo** so you can explore every feature end-to-end.
+> Honesty about what is real:
+>
+> | Component | Demo (this repo) | Production |
+> |---|---|---|
+> | Next.js UI, API routes, Prisma/SQLite DB | ✅ Real & live | ✅ Same code |
+> | FastAPI engine — scoring, cover letters, cycles | ✅ Real & live | ✅ Same code |
+> | Laravel analytics API | ✅ Real code, live fallback | ✅ Same code |
+> | Job listings | ⚠️ Seeded sample data (`prisma/seed.ts`) | 🔌 Fetched from real portal feeds |
+> | Portal "connections" | ⚠️ Simulated — flags in local DB, credentials never leave the browser | 🔐 OAuth via official portal APIs |
+> | "Applying" | ⚠️ Records the application **in this platform's own database** — no employer receives it, no email is sent | 📨 Submits through the portal (or browser automation you run yourself) |
+>
+> **Why?** Indeed, LinkedIn & co. provide **no public API to apply on a user's behalf**, and their
+> Terms of Service forbid automated submissions / scraping. Any product claiming direct
+> auto-apply uses gray-area browser automation with your logged-in session (risk: account bans).
+> The production path is documented in [Going to Production](#-going-to-production) below.
+
 ## ✨ Feature Highlights
 
 | | Feature | What it does |
@@ -233,6 +253,25 @@ automatedjob/
 - [ ] Multi-user auth (NextAuth) with per-account portals
 - [ ] Laravel analytics wired to the shared SQLite/Postgres DB
 - [ ] Recruiter-response prediction model
+
+## 🛠️ Going to Production
+
+To make JobPilot apply for real, the platform is architected so **only the delivery layer changes** —
+the scoring, cover-letter and pipeline code stays identical:
+
+1. **Official APIs where available** — e.g. Indeed's Publisher API for search, ATS-side APIs
+   (Greenhouse, Lever, Workable) accept real applications; several ATS boards expose "apply" endpoints
+   that a server can call with the candidate's consent.
+2. **Email delivery** — many companies accept applications via email; the engine already generates
+   tailored letters, so an SMTP/Resend worker can deliver them for real.
+3. **Your own browser automation** — run a Playwright worker locally with your logged-in session
+   (this is what commercial auto-apply tools do). Be aware it violates most portals' ToS and
+   carries account-ban risk; it is **not** enabled in this repo.
+4. **Aggregators** — services like Greenhouse/Lever boards, Simplify-style profiles, or APIs from
+   job aggregators with official apply flows.
+
+The `Application` model's `events` timeline already records `method: 'manual' | 'auto'` per
+submission — a real delivery worker plugs in at the same point where demo mode writes the record.
 
 ## 🤝 Contributing
 

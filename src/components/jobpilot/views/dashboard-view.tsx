@@ -27,6 +27,7 @@ const STATUS_COLORS: Record<string, string> = {
 const LOG_ICONS: Record<string, { icon: typeof Send; tint: string }> = {
   engine_run: { icon: EngineIcon, tint: 'bg-emerald-500/12 text-emerald-500' },
   application_sent: { icon: Send, tint: 'bg-violet-500/12 text-violet-500' },
+  application_recorded: { icon: Send, tint: 'bg-violet-500/12 text-violet-500' },
   status_changed: { icon: ArrowRightCircle, tint: 'bg-amber-500/12 text-amber-500' },
   portal_connected: { icon: Plug, tint: 'bg-emerald-500/12 text-emerald-500' },
   portal_synced: { icon: RefreshCw, tint: 'bg-teal-500/12 text-teal-500' },
