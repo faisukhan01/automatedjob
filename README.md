@@ -45,7 +45,7 @@ No more 2 a.m. "Easy Apply" marathons. Set your rules once. Ship resumes while y
 | ✍️ | **AI Cover Letters** | A tailored, professional cover letter generated per application |
 | 📊 | **Application Tracker** | Full pipeline (Applied → Screening → Interview → Offer) with per-application timeline & used cover letter |
 | 🧭 | **Job Discovery** | Filter 100+ roles by portal, location, remote, salary & match; save jobs for later |
-| 📄 | **Resume Studio** | Multiple resumes with ATS scoring, primary-resume selection, and career profile |
+| 📄 | **Resume Studio + AI Import** | Drop a PDF or Word resume — AI extracts contacts, skills & experience and auto-fills your profile; multiple resumes with ATS scoring |
 | 📈 | **Performance Insights** | Conversion funnel, per-portal response/interview rates, best-portal ROI — Laravel analytics API with live fallback |
 | 📊 | **Dashboard Analytics** | Application velocity, pipeline donut, portal leaderboard, response rate |
 | 🧾 | **Activity Audit Log** | Every engine run, application, sync and status change — fully traceable |

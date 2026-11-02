@@ -1,6 +1,6 @@
 'use client'
 
-import { useOverview, useApplyJob } from '@/lib/api'
+import { useOverview, useApplyJob, useProfile } from '@/lib/api'
 import { useUI } from '@/lib/store'
 import { StatCard } from '@/components/jobpilot/shared/stat-card'
 import { MatchRing } from '@/components/jobpilot/shared/match-ring'
@@ -68,6 +68,7 @@ function ActivityFeed({ logs }: { logs: ActivityLog[] }) {
 
 export function DashboardView() {
   const { data, isLoading } = useOverview()
+  const { data: profile } = useProfile()
   const setView = useUI((s) => s.setView)
   const applyJob = useApplyJob()
 
@@ -93,7 +94,7 @@ export function DashboardView() {
     <div className="space-y-6">
       <div>
         <h1 className="text-xl font-bold tracking-tight md:text-2xl">
-          {greeting()}, Faisal <span aria-hidden>👋</span>
+          {greeting()}, {(profile?.fullName ?? 'Faisal').split(' ')[0]} <span aria-hidden>👋</span>
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           {data.engineEnabled

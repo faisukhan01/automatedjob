@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useAddResume, useDeleteResume, useProfile, useResumes, useSaveProfile, useSetPrimaryResume } from '@/lib/api'
+import { useRef, useState } from 'react'
+import { useAddResume, useDeleteResume, useImportResume, useProfile, useResumes, useSaveProfile, useSetPrimaryResume, type ResumeImportResult } from '@/lib/api'
 import { SectionHeader } from '@/components/jobpilot/shared/section-header'
 import { ChipInput } from '@/components/jobpilot/shared/chip-input'
 import { MatchRing } from '@/components/jobpilot/shared/match-ring'
@@ -22,7 +22,7 @@ import {
   AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { toast } from 'sonner'
-import { Loader2, Save, Star, Trash2, Upload, UserRound, FileUp } from 'lucide-react'
+import { BadgeCheck, CloudUpload, FileText, Loader2, Save, Sparkles, Star, Trash2, Upload, UserRound, FileUp } from 'lucide-react'
 import type { Profile } from '@/lib/types'
 
 const ALL_TYPES = ['full-time', 'contract', 'part-time', 'internship']
@@ -41,6 +41,42 @@ export function ResumeView() {
   const [uploadOpen, setUploadOpen] = useState(false)
   const [upload, setUpload] = useState({ name: '', targetRole: '' })
   const [deletingId, setDeletingId] = useState<string | null>(null)
+
+  // ---- resume import (PDF / Word → auto-fill profile) ----
+  const importResume = useImportResume()
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [importOpen, setImportOpen] = useState(false)
+  const [importResult, setImportResult] = useState<ResumeImportResult | null>(null)
+  const [importError, setImportError] = useState<string | null>(null)
+
+  const pickFile = () => {
+    setImportResult(null)
+    setImportError(null)
+    fileInputRef.current?.click()
+  }
+
+  const onFilePicked = (f: File | undefined) => {
+    if (!f) return
+    const ok = /\.(pdf|docx?)$/i.test(f.name) || f.type === 'application/pdf'
+    if (!ok) {
+      setImportError('Only PDF or Word (.docx / .doc) files are supported')
+      return
+    }
+    setImportError(null)
+    toast.promise(importResume.mutateAsync(f), {
+      loading: `Reading ${f.name} — AI is extracting your data…`,
+      success: (res) => {
+        setImportResult(res)
+        // auto-fill every form field from the parsed resume
+        setDraft((d) => ({ ...d, ...res.profile }))
+        return res.message
+      },
+      error: (err) => {
+        setImportError(err.message)
+        return err.message
+      },
+    })
+  }
 
   const set = <K extends keyof Profile>(key: K, value: Profile[K]) =>
     setDraft((d) => ({ ...d, [key]: value }))
@@ -87,10 +123,27 @@ export function ResumeView() {
   return (
     <div>
       <SectionHeader title="Resume & Profile" description="Your career profile powers job matching, cover letters and auto-apply rules.">
+        <Button onClick={() => { setImportOpen(true); pickFile() }} className="gap-1.5">
+          <Sparkles className="size-4" /> Import resume
+        </Button>
         <Button onClick={() => setUploadOpen(true)} variant="outline" className="gap-1.5">
-          <Upload className="size-4" /> Upload resume
+          <Upload className="size-4" /> Add manually
         </Button>
       </SectionHeader>
+
+      {/* hidden file input driving the import dialog */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".pdf,.doc,.docx,application/pdf"
+        className="hidden"
+        onChange={(e) => {
+          onFilePicked(e.target.files?.[0])
+          e.target.value = ''
+        }}
+        aria-hidden
+        tabIndex={-1}
+      />
 
       <div className="grid gap-4 lg:grid-cols-5">
         {/* Profile form */}
@@ -229,13 +282,83 @@ export function ResumeView() {
         </Card>
       </div>
 
+      {/* Import dialog (PDF / Word → AI auto-fill) */}
+      <Dialog open={importOpen} onOpenChange={(open) => { setImportOpen(open); if (!open) { setImportResult(null); setImportError(null) } }}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Sparkles className="size-4 text-primary" /> Import resume
+            </DialogTitle>
+            <DialogDescription>
+              Upload a PDF or Word file — JobPilot reads it with AI and fills your whole profile automatically: contacts, headline, skills, experience.
+            </DialogDescription>
+          </DialogHeader>
+
+          {!importResult ? (
+            <div className="space-y-3">
+              <button
+                type="button"
+                onClick={pickFile}
+                disabled={importResume.isPending}
+                className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-primary/40 bg-primary/5 px-6 py-8 text-center transition-colors hover:border-primary/70 hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60"
+              >
+                {importResume.isPending ? (
+                  <Loader2 className="size-8 animate-spin text-primary" />
+                ) : (
+                  <CloudUpload className="size-8 text-primary" />
+                )}
+                <span className="text-sm font-semibold">
+                  {importResume.isPending ? 'Parsing your resume…' : 'Click to choose a file'}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  {importResume.isPending ? 'Extracting contacts, skills & experience with AI' : 'PDF or Word · up to 8 MB · text-based (not scanned)'}
+                </span>
+              </button>
+              {importError ? (
+                <p role="alert" className="rounded-lg bg-rose-500/10 px-3 py-2 text-xs text-rose-500">{importError}</p>
+              ) : (
+                <p className="text-center text-[11px] text-muted-foreground">
+                  Your profile is overwritten with the resume data — you can review & edit everything before saving.
+                </p>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3">
+                <BadgeCheck className="size-8 shrink-0 text-emerald-500" />
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Resume parsed successfully</p>
+                  <p className="truncate text-xs text-muted-foreground">
+                    {importResult.resume.fileName} · ATS score {importResult.atsScore}/100 · {importResult.parser === 'ai' ? 'AI extraction' : 'smart extraction'}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {importResult.extracted.map(([key, val]) => (
+                  <Badge key={key} variant="secondary" className="gap-1 text-[11px]">
+                    <FileText className="size-3" />
+                    {typeof val === 'number' ? `${val} ${key}` : `${key} found`}
+                  </Badge>
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Every form field on the left has been filled from your resume — review it, tweak anything, then hit <span className="font-semibold">Save profile</span>.
+              </p>
+              <div className="flex justify-end">
+                <Button onClick={() => { setImportOpen(false); setImportResult(null) }}>Review my profile</Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
       {/* Upload dialog */}
       <Dialog open={uploadOpen} onOpenChange={setUploadOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Upload resume</DialogTitle>
             <DialogDescription>
-              In this demo the resume is registered (name + target role) and an ATS score is estimated.
+              Register a resume by name (no file parsing) — an ATS score is estimated. Use “Import resume” to auto-fill your profile from a real PDF/Word file.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">

@@ -1,0 +1,53 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1444 >>
+stream
+BT /F1 11 Tf 50 780 Td (Bilal Ahmed Khan) Tj ET
+BT /F1 11 Tf 50 764 Td (Senior Full-Stack Engineer) Tj ET
+BT /F1 11 Tf 50 748 Td (bilal.ahmed@example.com | +92 300 1234567 | Karachi, Pakistan) Tj ET
+BT /F1 11 Tf 50 732 Td () Tj ET
+BT /F1 11 Tf 50 716 Td (SUMMARY) Tj ET
+BT /F1 11 Tf 50 700 Td (Full-stack engineer with 7 years of experience building SaaS platforms,) Tj ET
+BT /F1 11 Tf 50 684 Td (automation systems and AI-powered products. Comfortable owning features) Tj ET
+BT /F1 11 Tf 50 668 Td (end to end across React frontends and Python or Node backends.) Tj ET
+BT /F1 11 Tf 50 652 Td () Tj ET
+BT /F1 11 Tf 50 636 Td (SKILLS) Tj ET
+BT /F1 11 Tf 50 620 Td (TypeScript, JavaScript, React, Next.js, Node.js, Python, FastAPI,) Tj ET
+BT /F1 11 Tf 50 604 Td (PostgreSQL, MongoDB, Docker, AWS, Redis, GraphQL, REST API, Git, Linux) Tj ET
+BT /F1 11 Tf 50 588 Td () Tj ET
+BT /F1 11 Tf 50 572 Td (EXPERIENCE) Tj ET
+BT /F1 11 Tf 50 556 Td (Senior Software Engineer — NovaLabs \(2021 - Present\)) Tj ET
+BT /F1 11 Tf 50 540 Td (Led the migration of a monolith to microservices on AWS.) Tj ET
+BT /F1 11 Tf 50 524 Td () Tj ET
+BT /F1 11 Tf 50 508 Td (Software Engineer — PixelForge \(2018 - 2021\)) Tj ET
+BT /F1 11 Tf 50 492 Td (Built dashboards with React and FastAPI used by 40k users.) Tj ET
+BT /F1 11 Tf 50 476 Td () Tj ET
+BT /F1 11 Tf 50 460 Td (EDUCATION) Tj ET
+BT /F1 11 Tf 50 444 Td (BS Computer Science — NED University \(2014 - 2018\)) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000001736 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1806
+%%EOF

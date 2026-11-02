@@ -151,6 +151,32 @@ export const useAddResume = () => {
   })
 }
 
+export type ResumeImportResult = {
+  ok: boolean
+  parser: 'ai' | 'heuristic'
+  message: string
+  extracted: [string, boolean | number][]
+  atsScore: number
+  resume: Resume
+  profile: Partial<Profile>
+}
+
+export const useImportResume = () => {
+  const invalidate = useInvalidate()
+  return useMutation({
+    mutationFn: async (file: File) => {
+      const fd = new FormData()
+      fd.append('file', file)
+      const res = await fetch('/api/resumes/import', { method: 'POST', body: fd })
+      const data = await res.json().catch(() => null)
+      if (!res.ok) throw new Error((data as { error?: string } | null)?.error ?? `Import failed (${res.status})`)
+      return data as ResumeImportResult
+    },
+    onSuccess: () => invalidate('resumes', 'profile', 'activity', 'overview'),
+  })
+}
+
+
 export const useSetPrimaryResume = () => {
   const invalidate = useInvalidate()
   return useMutation({
